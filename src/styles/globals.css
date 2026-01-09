@@ -1,0 +1,374 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Light Mode Colors */
+    --background: 0 0% 100%; /* Default to white */
+    --foreground: 224 71.4% 4.9%; /* #111827 */
+    
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%; /* #6B7280 */
+    
+    --card: 0 0% 100%; /* #FFFFFF */
+    --card-foreground: 224 71.4% 4.9%; /* #111827 */
+    
+    --primary: 224 71.4% 4.9%; /* This will be dynamic with button gradients */
+    --primary-foreground: 210 40% 98%; /* This will be dynamic with button gradients */
+    
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 224 71.4% 4.9%;
+    
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 224 71.4% 4.9%;
+    
+    --destructive: 0 84.2% 60.2%; /* #B91C1C */
+    --destructive-foreground: 210 40% 98%;
+    
+    --border: 214.3 31.8% 91.4%; /* #E5E7EB */
+    --input: 214.3 31.8% 91.4%;
+    --ring: 224 71.4% 4.9%; /* For focus rings, typically primary color */
+    
+    /* Light mode page background (very light bluish) */
+    --page-background-h: 220;
+    --page-background-s: 100%;
+    --page-background-l-start: 99%; /* #F9FAFF */
+    --page-background-l-end: 95%;   /* #F3F4FF */
+  }
+ 
+  .dark {
+    /* Dark Mode Colors */
+    --background: 222.2 47.4% 11.2%; /* #020617 (for general background) */
+    --foreground: 210 40% 98%; /* #F9FAFB */
+    
+    --muted: 223 47% 11%;
+    --muted-foreground: 215.4 16.3% 56.9%; /* #E5E7EB (secondary text), #9CA3AF (muted text) */
+    
+    --card: 224 71.4% 4.9%; /* #0B1120 or #020617 */
+    --card-foreground: 210 40% 98%; /* #F9FAFB */
+    
+    --primary: 210 40% 98%; /* This will be dynamic with button gradients */
+    --primary-foreground: 224 71.4% 4.9%; /* This will be dynamic with button gradients */
+    
+    --secondary: 223 47% 11%;
+    --secondary-foreground: 210 40% 98%;
+    
+    --accent: 223 47% 11%;
+    --accent-foreground: 210 40% 98%;
+    
+    --destructive: 0 84.2% 60.2%; /* #EF4444 */
+    --destructive-foreground: 210 40% 98%;
+    
+    --border: 216 34% 17%; /* #1F2933 */
+    --input: 216 34% 17%;
+    --ring: 216 34% 17%; /* For focus rings, typically border color */
+    
+    /* Dark mode page background gradient */
+    --page-background-h: 222.2;
+    --page-background-s: 47.4%;
+    --page-background-l-start: 4.9%; /* #020617 */
+    --page-background-l-end: 5.9%;   /* #02081F */
+  }
+ 
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply text-foreground antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 18px;
+    line-height: 1.6;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    /* Improve text rendering on mobile */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    /* Prevent text size adjustment on mobile */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    /* Enable smooth cursor transitions */
+    cursor: auto;
+    transition: background-color 200ms ease-out, color 200ms ease-out, border-color 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out;
+  }
+
+  /* Animated background for body, applied via CSS variables */
+  body {
+    background: linear-gradient(
+      135deg,
+      hsl(var(--page-background-h) var(--page-background-s) var(--page-background-l-start)) 0%,
+      hsl(var(--page-background-h) var(--page-background-s) calc(var(--page-background-l-start) + (var(--page-background-l-end) - var(--page-background-l-start)) / 2)) 50%,
+      hsl(var(--page-background-h) var(--page-background-s) var(--page-background-l-end)) 100%
+    );
+    background-size: 200% 200%;
+    animation: gradient-shift 15s ease infinite;
+  }
+
+  @keyframes gradient-shift {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+  * {
+    cursor: auto;
+    transition: background-color 300ms ease, color 300ms ease, border-color 300ms ease, box-shadow 300ms ease, transform 200ms ease-out;
+  }
+
+  /* Smooth cursor animations for interactive elements */
+  button, a, input, select, textarea, [role="button"] {
+    cursor: pointer;
+    transition: background-color 300ms ease, color 300ms ease, border-color 300ms ease, box-shadow 300ms ease, transform 200ms ease-out;
+  }
+
+  button:hover, a:hover, [role="button"]:hover {
+    transform: translateY(-1px);
+  }
+
+  button:active, a:active, [role="button"]:active {
+    transform: translateY(0);
+  }
+
+  input:focus, select:focus, textarea:focus {
+    cursor: text;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    /* color is handled by text-foreground on parent */
+  }
+
+  h1 {
+    font-size: clamp(2.25rem, 5.5vw, 3.25rem);
+    margin-bottom: 1rem;
+  }
+
+  h2 {
+    font-size: clamp(1.75rem, 4.5vw, 2.5rem);
+    margin-bottom: 0.875rem;
+  }
+
+  h3 {
+    font-size: clamp(1.5rem, 3.5vw, 2rem);
+    margin-bottom: 0.75rem;
+  }
+
+  p {
+    margin-bottom: 1rem;
+    line-height: 1.7;
+  }
+
+  /* Improved readability for body text */
+  .text-body {
+    font-size: 1rem;
+    line-height: 1.7;
+    letter-spacing: -0.01em;
+  }
+
+  /* Optimized spacing scale */
+  .space-y-section > * + * {
+    margin-top: 3rem;
+  }
+
+  @media (min-width: 768px) {
+    .space-y-section > * + * {
+      margin-top: 4rem;
+    }
+  }
+
+  /* Ensure minimum touch target size on mobile */
+  @media (max-width: 768px) {
+    button, a, input, select, textarea {
+      min-height: 44px;
+      min-width: 44px;
+    }
+
+    /* Optimize font sizes for mobile */
+    body {
+      font-size: 16px;
+    }
+
+    h1 {
+      font-size: clamp(1.75rem, 5vw, 2.5rem);
+    }
+
+    h2 {
+      font-size: clamp(1.5rem, 4vw, 2rem);
+    }
+
+    h3 {
+      font-size: clamp(1.25rem, 3.5vw, 1.75rem);
+    }
+  }
+
+  /* Tablet optimizations */
+  @media (min-width: 768px) and (max-width: 1024px) {
+    .container {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+  }
+
+  /* Improve scroll behavior */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Respect user's motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+@layer utilities {
+  /* Mobile-specific optimizations */
+  @media (max-width: 768px) {
+    /* Reduce blur effects on mobile for better performance */
+    .backdrop-blur-xl {
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    
+    .backdrop-blur-md {
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    /* Optimize shadows on mobile */
+    .glass-card {
+      box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.37);
+    }
+
+    /* Ensure text is readable on small screens */
+    body {
+      font-size: 16px; /* Prevents zoom on iOS */
+    }
+  }
+
+  /* Touch-friendly utilities */
+  .touch-manipulation {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Screen reader only - for accessibility */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  .sr-only:focus,
+  .sr-only:active {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+  }
+
+  /* Focus visible styles for better keyboard navigation */
+  *:focus-visible {
+    outline: 2px solid #06b6d4;
+    outline-offset: 2px;
+  }
+
+  /* Glassmorphism utilities */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  }
+
+  .dark .glass-card {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .glass-enhanced {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  }
+
+  .dark .glass-enhanced {
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+  }
+
+  .glass-panel {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .dark .glass-panel {
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* Metallic text effect */
+  .metallic-text {
+    background: linear-gradient(135deg, #c0c0c0 0%, #e8e8e8 25%, #ffffff 50%, #e8e8e8 75%, #c0c0c0 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: metallic-shine 3s ease-in-out infinite;
+    filter: drop-shadow(0 2px 12px rgba(255, 255, 255, 0.4));
+  }
+
+  .dark .metallic-text {
+    background: linear-gradient(135deg, #8e9eab 0%, #c4cdd5 25%, #eef2f3 50%, #c4cdd5 75%, #8e9eab 100%);
+    background-size: 200% auto;
+  }
+
+  /* Micro-interaction hover effects */
+  .hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  }
+
+  .hover-glow {
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+
+  .hover-glow:hover {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+    border-color: rgba(59, 130, 246, 0.5);
+  }
+}
